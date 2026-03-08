@@ -13,7 +13,7 @@ filename = 'StandardQB - QB Scouting Data Sheet Creation.csv'
 qb_dataframe = pd.read_csv(filename)
 
 # 1. Clean numeric columns
-cols_to_fix = ['HS Stars (247 comp)', 'Draft position', 'Rating', 'Wonderlic/S2 equivalent']
+cols_to_fix = ['HS Stars (247 comp)', 'Draft position', 'Rating', 'Wonderlic/S2 equivalent', 'Heisman']
 for col_name in cols_to_fix:
     qb_dataframe[col_name] = pd.to_numeric(qb_dataframe[col_name], errors='coerce')
 
@@ -23,7 +23,9 @@ qb_dataframe['Rush TDs per game'] = qb_dataframe['Rush TDs per game'].clip(lower
 
 # 3. MISSING DATA FLAGS: Handle players like Drake Maye with no Wonderlic
 # Create a 'Mute Button' flag: 1 if missing, 0 if present
-qb_dataframe['Wonderlic_Is_Missing'] = qb_dataframe['Wonderlic/S2 equivalent'].isna().astype(int)
+# We rename your spreadsheet column to 'Wonderlic_Is_Missing' and flip the logic
+# If sheet is 0 (Missing), 1-0 = 1 (Mute ON). If sheet is 1 (Present), 1-1 = 0 (Mute OFF).
+qb_dataframe['Wonderlic_Is_Missing'] = 1 - qb_dataframe['Wonderlic/S2 Test taken or confidential']
 
 # Fill the missing gaps with the Mean so the math stays stable
 E_Mean_Wonderlic = qb_dataframe['Wonderlic/S2 equivalent'].mean()
@@ -162,22 +164,18 @@ plt.ylabel('Loss Value')
 plt.show()
 
 # --- REPLACED BLOCK ---
-print("\n" + "=" * 70)
-print(f"{'PLAYER NAME':<35} | {'PRED':<8} | {'ACTUAL':<8} | {'DIFF'}")
-print("-" * 70)
+# --- STEP 5: EVALUATION & RESULTS ---
+print("\n" + "═" * 60)
+print(f"{'PROSPECT':<30} | {'PRED':<6} | {'TRUE':<6} | {'STATUS'}")
+print("─" * 60)
 
-# Loop through the entire test set
 for i in range(len(final_predictions)):
-    name_label = test_names[i]
-    prediction_value = final_predictions[i].item()
-    actual_value = y_test_tensor[i].item()
-    diff = abs(prediction_value - actual_value)
+    diff = abs(final_predictions[i].item() - y_test_tensor[i].item())
+    status = "⚠️  MISS" if diff > 0.25 else "✅ OK"
 
-    # Flag differences larger than 0.25
-    flag = " [!] MISSED" if diff > 0.25 else ""
-
-    print(f"{name_label:<35} | {prediction_value:<8.2f} | {actual_value:<8.2f} | {diff:.2f}{flag}")
-print("=" * 70)
+    print(
+        f"{test_names[i][:30]:<30} | {final_predictions[i].item():<6.2f} | {y_test_tensor[i].item():<6.2f} | {status}")
+print("═" * 60)
 
 
 # --- END REPLACED BLOCK ---
@@ -192,6 +190,12 @@ def predict_new_qb(custom_stats_dict):
     # 1. Convert the dictionary to a DataFrame to match the model's feature structure
     custom_df = pd.DataFrame([custom_stats_dict])
 
+    custom_df = pd.DataFrame([custom_stats_dict])
+
+    # ADD THIS EXACT LINE HERE:
+    custom_df = custom_df.reindex(columns=features_matrix.columns, fill_value=0)
+
+    custom_scaled = scaler.transform(custom_df)
     # 2. Normalize the input using the SAME scaler from the training data
     # Formula Rule: E[Normalized Input] = (E[Raw Input] - E[Min]) / E[Range]
     custom_scaled = scaler.transform(custom_df)
@@ -210,27 +214,32 @@ def predict_new_qb(custom_stats_dict):
 # Example: Inputting a "Top Prospect" with elite stats
 # Note: Ensure these keys match your CSV column names exactly!
 new_prospect_stats = {
-    'Height (in)': 77,
-    'Weight (lbs)': 235.0,
-    'Years Starter (college)': 3,
-    'Draft position': 1,
-    'HS Stars (247 comp)': .9999,
-    'School Prestige at the time': 10,
-    'Support Cast (College)': 0.5,
-    'Pass Yards as starter per game': 357.3,
-    'Pass TDs per game': 3.6,
-    'Attempts per game': 27,
-    'Cmp%': 81,
-    'INTs per game': .06,
-    'Rush Yards per game': 95.9,
-    'Rush TDs per game': 2.1,
-    '40-Yard': 4.31,
-    'Vert (in)': 39,
-    'Hand Size': 10.5,
-    'Wonderlic/S2 equivalent': 35, # Example score
-    'Wonderlic_Is_Missing': 0       # Set to 1 if you don't have a score
+    'Height (in)': 75,
+    'Weight (lbs)': 205.0,
+    'Years Starter (college)': 2,
+    'Draft position': 64,
+    'HS Stars (247 comp)': .7933,
+    'School Prestige at the time': 5.5,
+    'Support Cast (College)': 4,
+    'Pass Yards as starter per game': 248,
+    'Pass TDs per game': 2.07,
+    'Attempts per game': 29.15,
+    'Cmp%': 66.5,
+    'INTs per game': .44,
+    'Rush Yards per game': 3.70,
+    'Rush TDs per game': .07,
+    '40-Yard': 4.75,
+    'Vert (in)': 32,
+    'Hand Size': 9.5,
+    'Wonderlic/S2 equivalent': 29,
+    'Wonderlic_Is_Missing': 0,
+    'Heisman': 1
 }
 
 rating = predict_new_qb(new_prospect_stats)
-print(f"\n--- NEW PROSPECT REPORT ---")
-print(f"Predicted NFL Success Rating: {rating:.4f}")
+# --- FINAL OUTPUT ---
+print(f"\n🚀 [DETAILED SCOUTING REPORT]")
+print(f"Target: DARIAN MENSAH")
+print(f"Predicted Success Rating: {rating:.4f}")
+print(f"Confidence Level: {'HIGH' if test_loss < 0.1 else 'MODERATE'}")
+print("═" * 60)

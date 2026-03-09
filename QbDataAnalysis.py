@@ -13,7 +13,8 @@ filename = 'StandardQB - QB Scouting Data Sheet Creation.csv'
 qb_dataframe = pd.read_csv(filename)
 
 # 1. Clean numeric columns
-cols_to_fix = ['HS Stars (247 comp)', 'Draft position', 'Rating', 'Wonderlic/S2 equivalent', 'Heisman']
+cols_to_fix = ['HS Stars (247 comp)', 'Draft position', 'Rating', 'Wonderlic/S2 equivalent', 'Heisman',
+               'Passing efficiency rating']
 for col_name in cols_to_fix:
     qb_dataframe[col_name] = pd.to_numeric(qb_dataframe[col_name], errors='coerce')
 
@@ -226,6 +227,7 @@ new_prospect_stats = {
     'Attempts per game': 29.15,
     'Cmp%': 66.5,
     'INTs per game': .44,
+    'Passing efficiency rating': 158.4,
     'Rush Yards per game': 3.70,
     'Rush TDs per game': .07,
     '40-Yard': 4.75,

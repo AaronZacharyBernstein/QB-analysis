@@ -39,3 +39,9 @@
 - **📋Test score taken/released**: 1 if score was released, 0 if there is no score present
 - **🏆Heisman**: Personal knowledge, 1 if they won, 0 if a player did not win the award
 - **💎Final rating**: Ranked on a scale of 0-1 based on my personal knowledge and opinion of their NFL success
+
+## ⚙️3. Python Libraries used⚙️
+- _Pandas_: Used to read through the CSV file and create a data frame, filling in empty values and ensuring there are no errors with the input data
+- _Scikit-learn_: Used to standardize all the data, making sure that no categories dominated others
+- _PyTorch_: Created layers of a neural network and ran epochs, using tensors to calculate weights and build the model
+- _Matplotlib_: Used to graph the training loss from epoch 1 to epoch 200 for me to see how the model is improving

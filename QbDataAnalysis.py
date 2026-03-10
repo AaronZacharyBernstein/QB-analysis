@@ -246,7 +246,7 @@ new_prospect_stats = {
 rating = predict_new_qb(new_prospect_stats)
 # --- FINAL OUTPUT ---
 print(f"\n🚀 [DETAILED SCOUTING REPORT]")
-print(f"Target: DARIAN MENSAH")
+print(f"Target: FAKE QB")
 print(f"Predicted Success Rating: {rating:.4f}")
 print(f"Confidence Level: {'HIGH' if test_loss < 0.1 else 'MODERATE'}")
 print("═" * 60)

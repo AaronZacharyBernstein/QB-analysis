@@ -4,6 +4,8 @@
    
     As I have been getting more familiar with the world of AI/machine learning, I wanted to build a project 
     where I could combine my passion for sports with my love for creation and engineering. 
+    **This project is meant to be a playground for me to experiment with, break, repair, and figure out machine learning models**
+    **For those interested in forking, I encourage you to make wild changes and experiment!**
     As a 49ers fan, I watched my team spend 3 first round picks to trade up and select Trey Lance, a dual-threat 
     FCS national champion who led his team to an undefeated season while contributing 42 total touchdowns with 0 interceptions.
     Fast forward to today, and Trey Lance is rotting as a backup in LA after a failed stint with the 49ers. 

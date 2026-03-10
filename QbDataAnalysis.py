@@ -120,12 +120,11 @@ E_Learning_Rate_Scheduler = optim.lr_scheduler.ReduceLROnPlateau(
 )
 
 # --- STEP 4: THE OPTIMIZED TRAINING LOOP ---
-epochs = 200  # Increased to allow the Scheduler time to work
+epochs = 200
 loss_history = []
 
 print("Starting Training...")
 for epoch in range(epochs):
-    # model.train() ensures Dropout and Gaussian Noise are ACTIVE during practice
     model.train()
 
     # Reset gradients to zero to prevent data from the previous Epoch from leaking
@@ -147,8 +146,14 @@ for epoch in range(epochs):
     E_Learning_Rate_Scheduler.step(loss.item())
 
     loss_history.append(loss.item())
-    if (epoch + 1) % 10 == 0:
-        print(f"Epoch {epoch + 1}/{epochs} - Loss: {loss.item():.4f}")
+
+    # --- THE CUSTOM BROADCAST FILTER ---
+    # Trigger on the 1st (0), the 5th (4), or every 10th (9, 19, 29...)
+    # We use (epoch + 1) to match your "Human-Readable" display format
+    current_display_epoch = epoch + 1
+
+    if current_display_epoch == 1 or current_display_epoch == 5 or current_display_epoch % 10 == 0:
+        print(f"Epoch {current_display_epoch}/{epochs} - Loss: {loss.item():.4f}")
 
 # --- STEP 5: EVALUATION & RESULTS ---
 model.eval()
@@ -215,26 +220,26 @@ def predict_new_qb(custom_stats_dict):
 # Example: Inputting a "Top Prospect" with elite stats
 # Note: Ensure these keys match your CSV column names exactly!
 new_prospect_stats = {
-    'Height (in)': 75,
-    'Weight (lbs)': 205.0,
-    'Years Starter (college)': 2,
-    'Draft position': 64,
-    'HS Stars (247 comp)': .7933,
-    'School Prestige at the time': 5.5,
-    'Support Cast (College)': 4,
-    'Pass Yards as starter per game': 248,
-    'Pass TDs per game': 2.07,
-    'Attempts per game': 29.15,
-    'Cmp%': 66.5,
-    'INTs per game': .44,
-    'Passing efficiency rating': 158.4,
-    'Rush Yards per game': 3.70,
-    'Rush TDs per game': .07,
-    '40-Yard': 4.75,
-    'Vert (in)': 32,
-    'Hand Size': 9.5,
-    'Wonderlic/S2 equivalent': 29,
-    'Wonderlic_Is_Missing': 0,
+    'Height (in)': 76,
+    'Weight (lbs)': 225.0,
+    'Years Starter (college)': 5,
+    'Draft position': 1,
+    'HS Stars (247 comp)': .9999,
+    'School Prestige at the time': 5,
+    'Support Cast (College)': 10,
+    'Pass Yards as starter per game': 312,
+    'Pass TDs per game': 3.54,
+    'Attempts per game': 17.1,
+    'Cmp%': 74.5,
+    'INTs per game': .01,
+    'Passing efficiency rating': 174.2,
+    'Rush Yards per game': 94.35,
+    'Rush TDs per game': 2.0,
+    '40-Yard': 4.21,
+    'Vert (in)': 42.5,
+    'Hand Size': 10.5,
+    'Wonderlic/S2 equivalent': 50,
+    'Wonderlic_Is_Missing': 1,
     'Heisman': 1
 }
 

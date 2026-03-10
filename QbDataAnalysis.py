@@ -219,7 +219,7 @@ def predict_new_qb(custom_stats_dict):
 
 # Example: Inputting a "Top Prospect" with elite stats
 # Note: Ensure these keys match your CSV column names exactly!
-new_prospect_stats = {
+Fernando_Mendoza = {
     'Height (in)': 76,
     'Weight (lbs)': 225.0,
     'Years Starter (college)': 5,
@@ -243,7 +243,7 @@ new_prospect_stats = {
     'Heisman': 1
 }
 
-rating = predict_new_qb(new_prospect_stats)
+rating = predict_new_qb(Fernando_Mendoza)
 # --- FINAL OUTPUT ---
 print(f"\n🚀 [DETAILED SCOUTING REPORT]")
 print(f"Target: FAKE QB")

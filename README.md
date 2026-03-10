@@ -36,7 +36,6 @@
 - **👟Rush yards per game**: Sports-reference
 - **💨Rush tds per game**: Sports-reference
 - **⏱️40 yard dash**: MockDraftable, pro day statistics from Google search, or median if unavailable
-- **🦘Vertical jump**: MockDraftable, pro day statistics from Google search, or median if unavailable
 - **🖐️Hand size**: MockDraftable, pro day statistics from Google search, or median if unavailable
 - **🧠Wonderlic/S2 score**: WonderlicTestPractice or Google search, left blank if no score available
 - **📋Test score taken/released**: 1 if score was released, 0 if there is no score present

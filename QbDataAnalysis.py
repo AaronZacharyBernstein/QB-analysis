@@ -220,33 +220,59 @@ def predict_new_qb(custom_stats_dict):
 # Example: Inputting a "Top Prospect" with elite stats
 # Note: Ensure these keys match your CSV column names exactly!
 Fernando_Mendoza = {
-    'Height (in)': 76,
-    'Weight (lbs)': 225.0,
-    'Years Starter (college)': 5,
+    'Height (in)': 77,
+    'Weight (lbs)': 236.0,
+    'Years Starter (college)': 3,
     'Draft position': 1,
-    'HS Stars (247 comp)': .9999,
-    'School Prestige at the time': 5,
-    'Support Cast (College)': 10,
-    'Pass Yards as starter per game': 312,
-    'Pass TDs per game': 3.54,
-    'Attempts per game': 17.1,
-    'Cmp%': 74.5,
-    'INTs per game': .01,
-    'Passing efficiency rating': 174.2,
-    'Rush Yards per game': 94.35,
-    'Rush TDs per game': 2.0,
-    '40-Yard': 4.21,
-    'Vert (in)': 42.5,
-    'Hand Size': 10.5,
-    'Wonderlic/S2 equivalent': 50,
-    'Wonderlic_Is_Missing': 1,
+    'HS Stars (247 comp)': .7933,
+    'School Prestige at the time': 4,
+    'Support Cast (College)': 5.75,
+    'Pass Yards as starter per game': 235.63,
+    'Pass TDs per game': 2.03,
+    'Attempts per game': 28.8,
+    'Cmp%': 68.6,
+    'INTs per game': .63,
+    'Passing efficiency rating': 156.2,
+    'Rush Yards per game': 13.51,
+    'Rush TDs per game': .31,
+    '40-Yard': 4.85,
+    'Hand Size': 9.5,
+    'Wonderlic/S2 equivalent': 30,
+    'Wonderlic_Is_Missing': 0,
     'Heisman': 1
 }
 
-rating = predict_new_qb(Fernando_Mendoza)
+Ty_Simpson = {
+    'Height (in)': 73,
+    'Weight (lbs)': 211.0,
+    'Years Starter (college)': 1,
+    'Draft position': 16,
+    'HS Stars (247 comp)': .9883,
+    'School Prestige at the time': 10,
+    'Support Cast (College)': 8,
+    'Pass Yards as starter per game': 237.8,
+    'Pass TDs per game': 1.87,
+    'Attempts per game': 31.53,
+    'Cmp%': 64.5,
+    'INTs per game': .33,
+    'Passing efficiency rating': 145.2,
+    'Rush Yards per game': 6.2,
+    'Rush TDs per game': .13,
+    '40-Yard': 4.72,
+    'Hand Size': 9.375,
+    'Wonderlic/S2 equivalent': 30,
+    'Wonderlic_Is_Missing': 0,
+    'Heisman': 0
+}
+
+rating_mendoza = predict_new_qb(Fernando_Mendoza)
+rating_simpson = predict_new_qb(Ty_Simpson)
 # --- FINAL OUTPUT ---
-print(f"\n🚀 [DETAILED SCOUTING REPORT]")
-print(f"Target: FAKE QB")
-print(f"Predicted Success Rating: {rating:.4f}")
-print(f"Confidence Level: {'HIGH' if test_loss < 0.1 else 'MODERATE'}")
+print(f"🚀 [DETAILED SCOUTING REPORT]\n")
+
+print(f"Target: Fernando Mendoza")
+print(f"Predicted Success Rating: {rating_mendoza:.4f}\n")
+print(f"Target: Ty Simpson")
+print(f"Predicted Success Rating: {rating_simpson:.4f}\n")
+
 print("═" * 60)

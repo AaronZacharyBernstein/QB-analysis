@@ -18,7 +18,7 @@
     true pattern behind what separates QBs who become NFL stars, and those who become labeled as draft busts.
     
 ## 📈2. Data collection📈
-    Currently, every QB is evaluated by 21 features to produce a rating, each of which is listed below, and websites where I got the features from:
+    Currently, every QB is evaluated by 17 features to produce a rating, each of which is listed below, and websites where I got the features from:
     
 - **📏Height**: ESPN
 - **⚖️Weight**: ESPN
@@ -35,10 +35,7 @@
 - **⚙️Passing efficiency rating**: Sports-reference
 - **👟Rush yards per game**: Sports-reference
 - **💨Rush tds per game**: Sports-reference
-- **⏱️40 yard dash**: MockDraftable, pro day statistics from Google search, or median if unavailable
 - **🖐️Hand size**: MockDraftable, pro day statistics from Google search, or median if unavailable
-- **🧠Wonderlic/S2 score**: WonderlicTestPractice or Google search, left blank if no score available
-- **📋Test score taken/released**: 1 if score was released, 0 if there is no score present
 - **🏆Heisman**: Personal knowledge, 1 if they won, 0 if a player did not win the award
 - **💎Final rating**: Ranked on a scale of 0-1 based on my personal knowledge and opinion of their NFL success
 

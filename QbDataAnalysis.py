@@ -270,26 +270,6 @@ Garrett_Nussmeier = {
     'Heisman': 0
 }
 
-Garrett_Nussmeier = {
-    'Height (in)': 73,
-    'Weight (lbs)': 205.0,
-    'Years Starter (college)': 2,
-    'Draft position': 64,
-    'HS Stars (247 comp)': .9624,
-    'School Prestige at the time': 9.5,
-    'Support Cast (College)': 8,
-    'Pass Yards as starter per game': 271.77,
-    'Pass TDs per game': 1.86,
-    'Attempts per game': 36.95,
-    'Cmp%': 65.3,
-    'INTs per game': .77,
-    'Passing efficiency rating': 139.5,
-    'Rush Yards per game': -4.32,
-    'Rush TDs per game': .18,
-    'Hand Size': 9.125,
-    'Heisman': 0
-}
-
 Drew_Allar = {
     'Height (in)': 77,
     'Weight (lbs)': 228.0,

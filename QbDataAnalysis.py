@@ -274,5 +274,6 @@ print(f"Target: Fernando Mendoza")
 print(f"Predicted Success Rating: {rating_mendoza:.4f}\n")
 print(f"Target: Ty Simpson")
 print(f"Predicted Success Rating: {rating_simpson:.4f}\n")
+print()
 
 print("═" * 60)

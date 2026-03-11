@@ -238,7 +238,7 @@ Ty_Simpson = {
     'HS Stars (247 comp)': .9883,
     'School Prestige at the time': 10,
     'Support Cast (College)': 8,
-    'Pass Yards as starter per game': 237.8,
+    'Pass Yards as star.ter per game': 237.8,
     'Pass TDs per game': 1.87,
     'Attempts per game': 31.53,
     'Cmp%': 64.5,

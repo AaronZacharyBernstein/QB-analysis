@@ -13,8 +13,7 @@ filename = 'StandardQB - QB Scouting Data Sheet Creation.csv'
 qb_dataframe = pd.read_csv(filename)
 
 # 1. Clean numeric columns
-cols_to_fix = ['HS Stars (247 comp)', 'Draft position', 'Rating', 'Wonderlic/S2 equivalent', 'Heisman',
-               'Passing efficiency rating']
+cols_to_fix = ['HS Stars (247 comp)', 'Draft position', 'Rating', 'Heisman', 'Passing efficiency rating']
 for col_name in cols_to_fix:
     qb_dataframe[col_name] = pd.to_numeric(qb_dataframe[col_name], errors='coerce')
 
@@ -22,22 +21,12 @@ for col_name in cols_to_fix:
 qb_dataframe['Rush Yards per game'] = qb_dataframe['Rush Yards per game'].clip(lower=0)
 qb_dataframe['Rush TDs per game'] = qb_dataframe['Rush TDs per game'].clip(lower=0)
 
-# 3. MISSING DATA FLAGS: Handle players like Drake Maye with no Wonderlic
-# Create a 'Mute Button' flag: 1 if missing, 0 if present
-# We rename your spreadsheet column to 'Wonderlic_Is_Missing' and flip the logic
-# If sheet is 0 (Missing), 1-0 = 1 (Mute ON). If sheet is 1 (Present), 1-1 = 0 (Mute OFF).
-qb_dataframe['Wonderlic_Is_Missing'] = 1 - qb_dataframe['Wonderlic/S2 Test taken or confidential']
-
-# Fill the missing gaps with the Mean so the math stays stable
-E_Mean_Wonderlic = qb_dataframe['Wonderlic/S2 equivalent'].mean()
-qb_dataframe['Wonderlic/S2 equivalent'] = qb_dataframe['Wonderlic/S2 equivalent'].fillna(E_Mean_Wonderlic)
-
 # 4. Fill all other missing values (like HS Stars or Draft Position) with 0
 qb_dataframe = qb_dataframe.fillna(0)
 
 # 5. Feature/Target Separation
 # Drop 'Name' and the non-numeric 'Test taken or confidential' column
-features_matrix = qb_dataframe.drop(columns=['Name', 'Rating', 'Wonderlic/S2 Test taken or confidential'])
+features_matrix = qb_dataframe.drop(columns=['Name', 'Rating'])
 target_vector = qb_dataframe['Rating']
 
 # 6. Use StandardScaler (Z-Scores) instead of MinMaxScaler
@@ -179,8 +168,7 @@ for i in range(len(final_predictions)):
     diff = abs(final_predictions[i].item() - y_test_tensor[i].item())
     status = "⚠️  MISS" if diff > 0.25 else "✅ OK"
 
-    print(
-        f"{test_names[i][:30]:<30} | {final_predictions[i].item():<6.2f} | {y_test_tensor[i].item():<6.2f} | {status}")
+    print(f"{str(test_names[i])[:30]:<30} | {final_predictions[i].item():<6.2f} | {y_test_tensor[i].item():<6.2f} | {status}")
 print("═" * 60)
 
 
@@ -258,15 +246,74 @@ Ty_Simpson = {
     'Passing efficiency rating': 145.2,
     'Rush Yards per game': 6.2,
     'Rush TDs per game': .13,
-    '40-Yard': 4.72,
     'Hand Size': 9.375,
-    'Wonderlic/S2 equivalent': 30,
-    'Wonderlic_Is_Missing': 0,
+    'Heisman': 0
+}
+
+Garrett_Nussmeier = {
+    'Height (in)': 73,
+    'Weight (lbs)': 205.0,
+    'Years Starter (college)': 2,
+    'Draft position': 64,
+    'HS Stars (247 comp)': .9624,
+    'School Prestige at the time': 9.5,
+    'Support Cast (College)': 8,
+    'Pass Yards as starter per game': 271.77,
+    'Pass TDs per game': 1.86,
+    'Attempts per game': 36.95,
+    'Cmp%': 65.3,
+    'INTs per game': .77,
+    'Passing efficiency rating': 139.5,
+    'Rush Yards per game': -4.32,
+    'Rush TDs per game': .18,
+    'Hand Size': 9.125,
+    'Heisman': 0
+}
+
+Garrett_Nussmeier = {
+    'Height (in)': 73,
+    'Weight (lbs)': 205.0,
+    'Years Starter (college)': 2,
+    'Draft position': 64,
+    'HS Stars (247 comp)': .9624,
+    'School Prestige at the time': 9.5,
+    'Support Cast (College)': 8,
+    'Pass Yards as starter per game': 271.77,
+    'Pass TDs per game': 1.86,
+    'Attempts per game': 36.95,
+    'Cmp%': 65.3,
+    'INTs per game': .77,
+    'Passing efficiency rating': 139.5,
+    'Rush Yards per game': -4.32,
+    'Rush TDs per game': .18,
+    'Hand Size': 9.125,
+    'Heisman': 0
+}
+
+Drew_Allar = {
+    'Height (in)': 77,
+    'Weight (lbs)': 228.0,
+    'Years Starter (college)': 2.5,
+    'Draft position': 128,
+    'HS Stars (247 comp)': .9852,
+    'School Prestige at the time': 7.25,
+    'Support Cast (College)': 8.25,
+    'Pass Yards as starter per game': 201.66,
+    'Pass TDs per game': 1.63,
+    'Attempts per game': 26.91,
+    'Cmp%': 63.5,
+    'INTs per game': .37,
+    'Passing efficiency rating': 143.6,
+    'Rush Yards per game': 19.43,
+    'Rush TDs per game': .31,
+    'Hand Size': 9.875,
     'Heisman': 0
 }
 
 rating_mendoza = predict_new_qb(Fernando_Mendoza)
 rating_simpson = predict_new_qb(Ty_Simpson)
+rating_nussmeier = predict_new_qb(Garrett_Nussmeier)
+rating_allar = predict_new_qb(Drew_Allar)
 # --- FINAL OUTPUT ---
 print(f"🚀 [DETAILED SCOUTING REPORT]\n")
 
@@ -274,6 +321,8 @@ print(f"Target: Fernando Mendoza")
 print(f"Predicted Success Rating: {rating_mendoza:.4f}\n")
 print(f"Target: Ty Simpson")
 print(f"Predicted Success Rating: {rating_simpson:.4f}\n")
-print()
-
+print(f"Target: Garrett Nussmeier")
+print(f"Predicted Success Rating: {rating_nussmeier:.4f}\n")
+print(f"Target: Drew Allar")
+print(f"Predicted Success Rating: {rating_allar:.4f}\n")
 print("═" * 60)
